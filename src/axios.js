@@ -1,0 +1,20 @@
+import axios from 'axios';
+
+//local 
+// axios.defaults.baseURL = 'http://localhost:8080/api/v1';
+
+//deployed
+
+axios.defaults.baseURL = 'https://rozee-api.herokuapp.com/api/v1';
+
+
+axios.interceptors.request.use(function (req) {
+  const user = localStorage.getItem('user');
+
+  if (user) {
+    const { token } = JSON.parse(localStorage.getItem('user'));
+    req.headers.authorization = `Bearer ${token}`;
+    return req;
+  }
+  return req;
+});
